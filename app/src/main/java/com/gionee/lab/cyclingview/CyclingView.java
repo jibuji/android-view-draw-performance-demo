@@ -2,11 +2,9 @@ package com.gionee.lab.cyclingview;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.FrameLayout;
 
 /**
@@ -21,6 +19,7 @@ public class CyclingView extends FrameLayout {
     Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
+            long start = System.currentTimeMillis();
             View child0 = getChildAt(0);
             child0.setTranslationX(mTx1);
             View child1 = getChildAt(1);
@@ -36,6 +35,8 @@ public class CyclingView extends FrameLayout {
                 }
             }
             CyclingView.this.postOnAnimation(mRunnable);
+            long end = System.currentTimeMillis();
+            Log.d("T", "end - start="+(end - start));
         }
     };
 
