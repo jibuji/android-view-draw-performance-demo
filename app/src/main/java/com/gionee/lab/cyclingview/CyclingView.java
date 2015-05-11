@@ -14,9 +14,31 @@ import android.widget.FrameLayout;
  */
 public class CyclingView extends FrameLayout {
 
-    int mTx1 = 0;
-    int mTx2 = 0;
+    float mTx1 = 0;
+    float mTx2 = 0;
     int animationStart = -1;
+
+    Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            View child0 = getChildAt(0);
+            child0.setTranslationX(mTx1);
+            View child1 = getChildAt(1);
+            child1.setTranslationX(mTx2);
+
+            --mTx1;
+            --mTx2;
+            if (mTx1 <= 0 && mTx2 <= 0) {
+                if (mTx1 < mTx2) {
+                    mTx1 = child0.getMeasuredWidth();
+                } else {
+                    mTx2 = child0.getMeasuredWidth();
+                }
+            }
+            CyclingView.this.postOnAnimation(mRunnable);
+        }
+    };
+
     public CyclingView(Context context) {
         super(context);
     }
@@ -32,6 +54,7 @@ public class CyclingView extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+        post(mRunnable);
     }
 
     @Override
@@ -45,6 +68,8 @@ public class CyclingView extends FrameLayout {
                     .UNSPECIFIED);
             measureChildWithMargins(child, widthSpec, 0, heightSpec, 0);
             mTx2 = child.getMeasuredWidth();
+            View child1 = getChildAt(1);
+            measureChildWithMargins(child1, widthSpec, 0, heightSpec, 0);
         }
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
         Log.d("T", "on Measure mTx1=" + mTx1 + ";mTx2=" + mTx2);
@@ -52,33 +77,10 @@ public class CyclingView extends FrameLayout {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-//        super.dispatchDraw(canvas);
         long start = System.currentTimeMillis();
-        Log.d("T", "mTx1=" + mTx1 + ";mTx2=" + mTx2);
-        if (getChildCount() > 0) {
-
-            View child = getChildAt(0);
-            canvas.translate(mTx1, 0);
-            child.draw(canvas);
-            canvas.translate(mTx2 - mTx1, 0);
-            child.draw(canvas);
-            canvas.translate(-mTx2, 0);
-
-            --mTx1;
-            --mTx2;
-            if (mTx1 <= 0 && mTx2 <= 0) {
-                if (mTx1 < mTx2) {
-                    mTx1 = child.getMeasuredWidth();
-                } else {
-                    mTx2 = child.getMeasuredWidth();
-                }
-            }
-        }
-        Log.d("T", "mTx1=" + mTx1 + ";mTx2=" + mTx2);
+        super.dispatchDraw(canvas);
         long end = System.currentTimeMillis();
-        Log.d("T", "time="+(end - start));
-        postInvalidate();
-
+        Log.d("T", "time=" + (end - start));
     }
 
     @Override
