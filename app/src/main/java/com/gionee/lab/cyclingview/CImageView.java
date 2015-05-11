@@ -2,6 +2,7 @@ package com.gionee.lab.cyclingview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
@@ -24,13 +25,16 @@ public class CImageView extends ImageView {
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+//        super.draw(canvas);
+        Drawable dr = this.getDrawable();
+        dr.setBounds(0, 0, this.getWidth(), this.getHeight());
+        dr.draw(canvas);
         Log.d("C", "draw");
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d("C", "onDraw");
+//        Log.d("C", "onDraw");
     }
 }
