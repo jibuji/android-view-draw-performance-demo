@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.widget.FrameLayout;
 
 /**
  * Created by jiengfei on 15-5-11.
@@ -50,7 +48,6 @@ public class CyclingView extends View {
     public void draw(Canvas canvas) {
 //        super.dispatchDraw(canvas);
         long start = System.currentTimeMillis();
-        Log.d("T", "mTx1=" + mTx1 + ";mTx2=" + mTx2);
 
         Drawable dr = mDrawable;
         canvas.translate(mTx1, 0);
@@ -68,9 +65,8 @@ public class CyclingView extends View {
                 mTx2 = dr.getIntrinsicWidth();
             }
         }
-        Log.d("T", "mTx1=" + mTx1 + ";mTx2=" + mTx2);
         long end = System.currentTimeMillis();
-        Log.d("T", "time=" + (end - start), new Exception());
+        Log.d("T", "time=" + (end - start));
         postInvalidate();
     }
 
