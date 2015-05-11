@@ -34,9 +34,9 @@ public class CyclingView extends FrameLayout {
                     mTx2 = child0.getMeasuredWidth();
                 }
             }
-            CyclingView.this.postOnAnimation(mRunnable);
             long end = System.currentTimeMillis();
             Log.d("T", "end - start="+(end - start));
+            CyclingView.this.postOnAnimation(mRunnable);
         }
     };
 
