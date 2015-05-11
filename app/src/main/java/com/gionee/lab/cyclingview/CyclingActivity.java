@@ -4,6 +4,7 @@ import com.gionee.lab.cyclingview.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,9 @@ public class CyclingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cycling);
+        Drawable dr = this.getResources().getDrawable(R.drawable.weather_fs_cloud);
+        CyclingView view = (CyclingView)findViewById(R.id.image1);
+        view.setDrawable(dr);
     }
 
     @Override
